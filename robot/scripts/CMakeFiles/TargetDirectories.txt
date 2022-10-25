@@ -1,3 +1,0 @@
-/home/workspace/robot/scripts/CMakeFiles/edit_cache.dir
-/home/workspace/robot/scripts/CMakeFiles/greetUser.dir
-/home/workspace/robot/scripts/CMakeFiles/rebuild_cache.dir
