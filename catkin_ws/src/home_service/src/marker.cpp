@@ -4,10 +4,11 @@
 
 int state = 0;
 visualization_msgs::Marker marker;
+ros::Publisher marker_pub;
 
 void state_callback(const std_msgs::Empty::ConstPtr& msg){
   state++;
-  ROS_INFO("Update");
+  ROS_INFO("State updated: %d", state);
   if (state == 1){
     marker.header.frame_id = "map";
     marker.header.stamp = ros::Time::now();
@@ -38,13 +39,14 @@ void state_callback(const std_msgs::Empty::ConstPtr& msg){
     marker.color.a = 1.0;
     marker.lifetime = ros::Duration(); 
   }
+  marker_pub.publish(marker);
 }
 int main( int argc, char** argv )
 {
   ros::init(argc, argv, "home_service_marker_node");
   ros::NodeHandle n;
   ros::Rate r(1);
-  ros::Publisher marker_pub = n.advertise<visualization_msgs::Marker>("visualization_marker", 1);
+  marker_pub = n.advertise<visualization_msgs::Marker>("visualization_marker", 1);
   ros::Subscriber state_sub = n.subscribe("/state_update", 10, state_callback);
 
   //Setup initial marker
@@ -83,7 +85,8 @@ int main( int argc, char** argv )
       ROS_WARN("Please create a subscriber to the marker");
       sleep(1);
     }
-    marker_pub.publish(marker);    
+    marker_pub.publish(marker);   
+    ros::spin();
     r.sleep();
   }
 }

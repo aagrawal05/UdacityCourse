@@ -1,0 +1,37 @@
+<launch>
+    <!-- Map Server -->
+    <arg name="map_file" default="$(find whereami)/maps/map.pgm.yaml" />
+    <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
+    
+    <!-- AMCL Node -->
+    <node name="amcl" pkg="amcl" type="amcl" output="screen">
+	<param name="odom_alpha1" value="0.01"/>
+	<param name="odom_alpha2" value="0.01"/>
+	<param name="odom_alpha3" value="0.01"/>
+	<param name="odom_alpha4" value="0.01"/>	
+	<param name="min_particles" value="0"/>
+        <param name="odom_frame_id" value="odom"/>
+        <param name="odom_model_type" value="diff-corrected"/>
+        <param name="base_frame_id" value="robot_footprint"/>
+        <param name="global_frame_id" value="map"/>
+        <!-- If you choose to define initial pose here -->
+        <param name="initial_pose_x" value="0.5"/>
+        <param name="initial_pose_y" value="4"/>
+        <param name="initial_pose_a" value="-1.5707"/>
+   	<param name="initial_cov_x" value="0"/>
+        <param name="initial_cov_y" value="0"/>
+        <param name="initial_cov_a" value="0"/>
+
+    </node>
+    
+    <!-- Move Base -->
+    <node name="move_base" pkg="move_base" type="move_base" respawn="false" output="screen">
+        <param name="base_global_planner" value="navfn/NavfnROS" />
+        <param name="base_local_planner" value="base_local_planner/TrajectoryPlannerROS"/>
+        <rosparam file="$(find whereami)/config/costmap_common_params.yaml" command="load" ns="global_costmap" />
+        <rosparam file="$(find whereami)/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
+        <rosparam file="$(find whereami)/config/local_costmap_params.yaml" command="load" />
+        <rosparam file="$(find whereami)/config/global_costmap_params.yaml" command="load" />
+        <rosparam file="$(find whereami)/config/base_local_planner_params.yaml" command="load" />
+    </node>
+</launch>

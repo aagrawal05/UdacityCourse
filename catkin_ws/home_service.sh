@@ -5,6 +5,6 @@ xterm -e "source /home/workspace/catkin_ws/devel/setup.bash; roslaunch turtlebot
 sleep 5
 xterm -e "source /home/workspace/catkin_ws/devel/setup.bash; roslaunch turtlebot_rviz_launchers view_navigation.launch" &
 sleep 5
-xterm -e "source /home/workspace/catkin_ws/devel/setup.bash; rosrun home_service home_service_marker_node"
+xterm -e "source /home/workspace/catkin_ws/devel/setup.bash; rosrun home_service home_service_marker_node" &
 sleep 5
 xterm -e "source /home/workspace/catkin_ws/devel/setup.bash; rosrun home_service home_service_goal_node"

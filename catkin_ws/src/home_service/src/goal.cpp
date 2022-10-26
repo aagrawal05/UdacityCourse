@@ -42,9 +42,8 @@ int main(int argc, char** argv){
   if(ac.getState() == actionlib::SimpleClientGoalState::SUCCEEDED) {
      ROS_INFO("Pick up point reached");
      goal_pub.publish(empty_msg);
-     while(!ac.waitForServer(ros::Duration(5.0))){
-         ROS_INFO("Waiting for pick up");
-     }
+     ROS_INFO("Waiting for pick up");
+	 ros::Duration(5.0).sleep();
      goal_pub.publish(empty_msg);
      ROS_INFO("Sending second goal");
      ac.sendGoal(goal2);
